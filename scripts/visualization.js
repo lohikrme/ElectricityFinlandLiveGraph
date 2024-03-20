@@ -41,7 +41,6 @@ const id_hydro_power = "191";
 const id_solar_power = "248";
 const id_nuclear_power = "188";
 
-
 // this function fetches data from fingrid.fi
 function fetchData(api_id) {
     const api_url = `https://api.fingrid.fi/v1/variable/${api_id}/events/csv?start_time=${starting_date}${starting_clock}&end_time=${ending_date}${ending_clock}`;
@@ -52,6 +51,9 @@ function fetchData(api_id) {
 
 // draw an overview graph
 function draw_new_overview_graph() {
+    overview_on = true;
+    renewability_on = false;
+
     // update dates and api_id's for the overview graph
     starting_date = document.getElementById('starting-date-input').value;
     ending_date = document.getElementById('ending-date-input').value;
@@ -70,23 +72,31 @@ function draw_new_overview_graph() {
 
         elec_production_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
         elec_consumption_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
         elec_exportation_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
 
+        /*
         console.log(elec_production_data);
         console.log(elec_consumption_data);
-        console.log(elec_exportation_data);
+        console.log(elec_exportation_data); 
+        */
 
         // access the html svg element to use it for drawing
         let original_svg_element = document.getElementById("electricity-visualization");
@@ -116,8 +126,10 @@ function draw_new_overview_graph() {
         dimensions.boundedHeight =
             dimensions.height - dimensions.margins.top - dimensions.margins.bottom;
 
+        /*
         console.log("Leveys: " + dimensions.boundedHeight);
         console.log("Korkeus: " + dimensions.boundedWidth);
+        */
 
         // add to svg a boundingBox, so there is room for the x and y accessor
         const boundingBox = svg.append("g") // create a boundingBox using group element, later draw lines inside this box
@@ -136,6 +148,7 @@ function draw_new_overview_graph() {
         let total_max = d3.max([max_prod, max_cons, max_exp]);
         let total_min = d3.min([min_prod, min_cons, min_exp]);
 
+        /*
         console.log(max_prod);
         console.log(max_cons);
         console.log(max_exp);
@@ -144,11 +157,14 @@ function draw_new_overview_graph() {
         console.log(min_exp);
         console.log(total_max);
         console.log(total_min);
+        */
 
         let min_date = d3.min(elec_production_data, d => d.start_time);
         let max_date = d3.max(elec_production_data, d => d.start_time);
+        /*
         console.log(min_date);
         console.log(max_date);
+        */
 
         // functions to scale the x and y axis
         yScale = d3.scaleLinear()
@@ -364,6 +380,9 @@ function draw_new_overview_graph() {
 // --------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 function draw_new_renewability_graph() {
+    renewability_on = true;
+    overview_on = false;
+    
     starting_date = document.getElementById('starting-date-input').value;
     ending_date = document.getElementById('ending-date-input').value;
     list_of_api_ids = [id_elec_production, id_wind_power, id_hydro_power, id_solar_power];
@@ -382,22 +401,30 @@ function draw_new_renewability_graph() {
 
         elec_production_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
         elec_windpower_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
         elec_hydropower_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
         elec_solarpower_data.forEach(function(d) {
             delete d.end_time;
-            d.start_time = date_parser(d.start_time);
+            let date = date_parser(d.start_time);
+            date.setHours(date.getHours() + 2);
+            d.start_time = date;
             d.value = +d.value;
         });
 
@@ -418,11 +445,13 @@ function draw_new_renewability_graph() {
         });
 
         // make sure datas look as they should after data cleaning
+        /*
         console.log(elec_production_data);
         console.log(elec_windpower_data);
         console.log(elec_hydropower_data);
         console.log(elec_solarpower_data2);
         console.log(elec_solarpower_data);
+        */
 
         // access the html svg element to use it for drawing
         let original_svg_element = document.getElementById("electricity-visualization");
@@ -452,8 +481,10 @@ function draw_new_renewability_graph() {
         dimensions.boundedHeight =
             dimensions.height - dimensions.margins.top - dimensions.margins.bottom;
 
+        /*
         console.log("Leveys: " + dimensions.boundedHeight);
         console.log("Korkeus: " + dimensions.boundedWidth);
+        */
 
         // add to svg a boundingBox, so there is room for the x and y accessor
         const boundingBox = svg.append("g") // create a boundingBox using group element, later draw lines inside this box
@@ -475,6 +506,7 @@ function draw_new_renewability_graph() {
         let total_max = d3.max([max_prod, max_wind, max_hydro, max_solar]);
         let total_min = d3.min([min_prod, min_wind, min_hydro, min_solar]);
 
+        /*
         console.log(max_prod);
         console.log(max_wind);
         console.log(max_hydro);
@@ -485,13 +517,16 @@ function draw_new_renewability_graph() {
         console.log(min_solar);
         console.log(total_max);
         console.log(total_min);
+        */
 
         // use solarpower_data2 as the origin of dates, because it has
         // a bit less dates compared to other data sets
         let min_date = d3.min(elec_solarpower_data2, d => d.start_time);
         let max_date = d3.max(elec_solarpower_data2, d => d.start_time);
+        /*
         console.log(min_date);
         console.log(max_date);
+        */
 
         // functions to scale the x and y axis
         // because total_min was so close to zero, just use zero
@@ -740,6 +775,17 @@ function draw_new_renewability_graph() {
 } // renewability_graph ends
 
 function main () {  
+
+    // if screen width change, update the graph!
+    window.addEventListener('resize', () => {
+        if (overview_on) {
+            draw_new_overview_graph();
+        }
+        else if (renewability_on) {
+            draw_new_renewability_graph();
+        }
+    });
+
     document.getElementById("overview-button").addEventListener("click", draw_new_overview_graph);
     document.getElementById("renewability-button").addEventListener("click", draw_new_renewability_graph);
 }
