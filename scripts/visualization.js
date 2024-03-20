@@ -790,4 +790,5 @@ function main () {
     document.getElementById("renewability-button").addEventListener("click", draw_new_renewability_graph);
 }
 
+draw_new_renewability_graph();
 main();
