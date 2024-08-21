@@ -1,3 +1,7 @@
+// visualizations.js
+// 21th august 2024
+
+import api_key from './api-key.js';
 
 // bring information about starting and ending date from UI
 // if ending_date is today, remove 15 minutes from ending_clcok and use that as end of today
@@ -43,10 +47,18 @@ const id_nuclear_power = "188";
 
 // this function fetches data from fingrid.fi
 function fetchData(api_id) {
-    const api_url = `https://api.fingrid.fi/v1/variable/${api_id}/events/csv?start_time=${starting_date}${starting_clock}&end_time=${ending_date}${ending_clock}`;
-    return fetch(api_url).
-    then(response => response.text()).
-    then(data => d3.csvParse(data));
+    const api_url = `https://data.fingrid.fi/api/datasets/${api_id}?start=${starting_date}${starting_clock}&end=${ending_date}${ending_clock}`;
+    return fetch(api_url, {
+        method: 'GET',
+        mode: 'no-cors',
+        headers: {
+            'Cache-Control': 'no-cache',
+            'x-api-key': api_key,
+        }
+    })
+    .then(response => response.text())
+    .then(data => d3.csvParse(data))
+    .catch(error => console.error('Error fetching data:', error));
 }
 
 // draw an overview graph

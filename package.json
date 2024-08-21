@@ -1,0 +1,21 @@
+{
+  "name": "electricitylivefinland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "visualizations.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lohikrme/ElectricityFinlandLiveGraph.git"
+  },
+  "keywords": [],
+  "author": "Chinese Parrot",
+  "license": "All rights reserved",
+  "bugs": {
+    "url": "https://github.com/lohikrme/ElectricityFinlandLiveGraph/issues"
+  },
+  "homepage": "https://lohikrme.github.io/ElectricityFinlandLiveGraph/"
+}
