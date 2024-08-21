@@ -1,8 +1,6 @@
 // visualizations.js
 // 21th august 2024
 
-import api_key from './api-key.js';
-
 // bring information about starting and ending date from UI
 // if ending_date is today, remove 15 minutes from ending_clcok and use that as end of today
 // there is 1-2 hour time difference because new Date() uses UCT +0 time
@@ -45,12 +43,14 @@ const id_hydro_power = "191";
 const id_solar_power = "248";
 const id_nuclear_power = "188";
 
+const api_key = 'd64a749c0fd64222bfdb10057e611f8a';
+
 // this function fetches data from fingrid.fi
 function fetchData(api_id) {
     const api_url = `https://data.fingrid.fi/api/datasets/${api_id}?start=${starting_date}${starting_clock}&end=${ending_date}${ending_clock}`;
     return fetch(api_url, {
         method: 'GET',
-        mode: 'no-cors',
+        // mode: 'no-cors',
         headers: {
             'Cache-Control': 'no-cache',
             'x-api-key': api_key,
